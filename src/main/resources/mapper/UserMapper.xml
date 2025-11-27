@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.java.mybatis.mapper.UserMapper">
+    <!-- 회원가입 -->
+    <insert id="insertUserLogin" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_login (username, password)
+        VALUES (#{username}, #{password})
+    </insert>
+    <insert id="insertUserInfo">
+        INSERT INTO user_info (login_id, nickname, email)
+        VALUES (#{loginId}, #{nickname}, #{email})
+    </insert>
+</mapper>
