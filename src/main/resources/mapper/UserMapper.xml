@@ -49,4 +49,43 @@
                  INNER JOIN user_login ul ON ui.login_id = ul.id
         WHERE ui.login_id = #{loginId}
     </select>
+
+    <!-- 1:N 관계 ResultMap -->
+    <resultMap id="userInfoWithPostsMap" type="UserInfo" extends="userInfoMap">
+        <collection property="posts" ofType="Post">
+            <id property="id" column="post_id"/>
+            <result property="title" column="title"/>
+        </collection>
+    </resultMap>
+    <!-- 사용자 정보 조회 (1:N 조인) -->
+    <select id="findUserWithPosts" resultMap="userInfoWithPostsMap">
+        SELECT
+            ui.id, ui.login_id, ui.nickname, ui.email, ui.created_at,
+            ul.username,
+            p.id AS post_id, p.title
+        FROM user_info ui
+                 INNER JOIN user_login ul ON ui.login_id = ul.id
+                 LEFT JOIN post p ON ui.id = p.author_id
+        WHERE ui.id = #{userInfoId}
+    </select>
+    <!-- M:N 관계 ResultMap -->
+    <resultMap id="userInfoWithLikedPostsMap" type="UserInfo" extends="userInfoMap">
+        <collection property="likedPosts" ofType="Post">
+            <id property="id" column="post_id"/>
+            <result property="title" column="title"/>
+        </collection>
+    </resultMap>
+    <!-- 사용자 정보 조회 (M:N 조인) -->
+    <select id="findUserWithLikedPosts" resultMap="userInfoWithLikedPostsMap">
+        SELECT
+            ui.id, ui.login_id, ui.nickname, ui.email, ui.created_at,
+            ul.username,
+            p.id AS post_id, p.title
+        FROM
+            user_info ui
+                INNER JOIN user_login ul ON ui.login_id = ul.id
+                LEFT JOIN post_like pl ON ui.id = pl.user_id
+                LEFT JOIN post p ON pl.post_id = p.id
+        WHERE ui.id = #{userInfoId}
+    </select>
 </mapper>

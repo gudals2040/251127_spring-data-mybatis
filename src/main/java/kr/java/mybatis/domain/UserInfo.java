@@ -18,6 +18,9 @@ public class UserInfo {
 
     // 1:N 관계 설정
     private List<Post> posts;
+
+    // M:N 관계 설정
+    private List<Post> likedPosts;
 }
 
 

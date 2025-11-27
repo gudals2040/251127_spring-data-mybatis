@@ -45,4 +45,14 @@ public class UserService {
 
         return userMapper.findUserInfoByLoginId(userLogin.getId());
     }
+
+    @Transactional(readOnly = true)
+    public UserInfo findWithPosts(long id) {
+        return userMapper.findUserWithPosts(id);
+    }
+
+    @Transactional(readOnly = true)
+    public UserInfo findWithLikedPosts(long id) {
+        return userMapper.findUserWithLikedPosts(id);
+    }
 }

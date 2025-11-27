@@ -2,9 +2,11 @@ package kr.java.mybatis.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.java.mybatis.domain.UserInfo;
+import kr.java.mybatis.mapper.UserMapper;
 import kr.java.mybatis.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class MainController {
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping
     public String index() {
@@ -53,5 +56,14 @@ public class MainController {
         }
         session.setAttribute("loginUser", userInfo);
         return "redirect:/";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model, HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute("loginUser");
+        model.addAttribute("posts", userMapper.findUserWithPosts(userInfo.getId()));
+        model.addAttribute("likedPosts",
+                userMapper.findUserWithLikedPosts(userInfo.getId()));
+        return "profile";
     }
 }
