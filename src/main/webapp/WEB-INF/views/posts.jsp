@@ -18,7 +18,7 @@
             작성자 : <%= p.getAuthor().getNickname() %> <br>
             제목 : <%= p.getTitle() %> <br>
             내용 : <%= p.getContent() %> <br>
-            <%-- 추천.. --%>
+            <a href="posts/<%= p.getId() %>">자세히보기</a>
         </p>
     <% } %>
 </body>
