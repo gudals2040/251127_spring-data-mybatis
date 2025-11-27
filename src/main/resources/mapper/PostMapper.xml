@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 주의! -->
+<mapper namespace="kr.java.mybatis.mapper.PostMapper">
+    <!-- 글 작성 -->
+    <insert id="insertPost" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post (author_id, title, content)
+        VALUES (#{authorId}, #{title}, #{content})
+    </insert>
+</mapper>

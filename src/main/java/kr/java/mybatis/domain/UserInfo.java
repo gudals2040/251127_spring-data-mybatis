@@ -3,6 +3,7 @@ package kr.java.mybatis.domain;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class UserInfo {
@@ -15,7 +16,8 @@ public class UserInfo {
     // 1:1 관계 설정
     private UserLogin userLogin;
 
-    // ...
+    // 1:N 관계 설정
+    private List<Post> posts;
 }
 
 

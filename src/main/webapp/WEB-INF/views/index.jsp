@@ -19,6 +19,8 @@
             <%= info.getNickname() %> <br>
             <%= info.getEmail() %>
         </p>
+        <a href="posts">글 목록</a>
+        <a href="posts/create">글 작성</a>
     </nav>
     <% } %>
 </body>
