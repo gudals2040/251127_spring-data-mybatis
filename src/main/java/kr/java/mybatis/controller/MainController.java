@@ -1,5 +1,7 @@
 package kr.java.mybatis.controller;
 
+import jakarta.servlet.http.HttpSession;
+import kr.java.mybatis.domain.UserInfo;
 import kr.java.mybatis.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,24 @@ public class MainController {
             @RequestParam String nickname,
             @RequestParam String email) {
         userService.register(username, password, nickname, email);
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(
+            @RequestParam String username,
+            @RequestParam String password,
+            HttpSession session) {
+        UserInfo userInfo = userService.login(username, password);
+        if (userInfo == null) {
+            return "redirect:/login";
+        }
+        session.setAttribute("loginUser", userInfo);
         return "redirect:/";
     }
 }
