@@ -11,4 +11,42 @@
         INSERT INTO user_info (login_id, nickname, email)
         VALUES (#{loginId}, #{nickname}, #{email})
     </insert>
+    <!-- ResultMap -->
+    <!-- 기본 ResultMap -->
+    <resultMap id="userLoginMap" type="UserLogin">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <!-- 1:1 관계 ResultMap -->
+    <resultMap id="userInfoMap" type="UserInfo">
+        <id property="id" column="id"/>
+        <result property="loginId" column="login_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+        <result property="createdAt" column="created_at"/>
+
+        <!-- association: 1:1 관계 매핑 -->
+        <association property="userLogin" javaType="UserLogin">
+            <id property="id" column="login_id"/>
+            <result property="username" column="username"/>
+        </association>
+    </resultMap>
+
+    <!-- 로그인 정보 조회 -->
+    <select id="findLoginByUsername" resultMap="userLoginMap">
+        SELECT * FROM user_login WHERE username = #{username}
+    </select>
+
+    <!-- 사용자 정보 조회 (1:1 조인) -->
+    <select id="findUserInfoByLoginId" resultMap="userInfoMap">
+        SELECT
+            ui.id, ui.login_id, ui.nickname, ui.email, ui.created_at,
+            ul.username
+        FROM user_info ui
+                 INNER JOIN user_login ul ON ui.login_id = ul.id
+        WHERE ui.login_id = #{loginId}
+    </select>
 </mapper>
